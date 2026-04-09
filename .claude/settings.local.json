@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir \"D:\\\\\\\\Projects\\\\\\\\Websites\\\\\\\\Gallery\")",
+      "Bash(git init:*)",
+      "Bash(cp -r /d/Projects/Websites/Gallery/gallery-temp/. /d/Projects/Websites/Gallery/)",
+      "Bash(rm -rf /d/Projects/Websites/Gallery/gallery-temp)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm run:*)",
+      "Bash(npm test:*)",
+      "Bash(cat)",
+      "Bash(node /tmp/test-analysis.js)"
+    ]
+  }
+}
