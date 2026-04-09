@@ -70,7 +70,9 @@ export class GalleryScene {
     this.camera = this.makeCamera();
 
     this.buildMesh();
-    this.loadTextures();
+    this.loadTextures().catch((err) => {
+      console.error("[GalleryScene] texture load failed:", err);
+    });
   }
 
   private makeCamera(): THREE.OrthographicCamera {
@@ -204,8 +206,12 @@ export class GalleryScene {
       this.cfg.distortionRadius
     );
 
+    // X: browser clientX and shader fragCoord.x both increase left→right, no flip needed.
+    // Y: browser clientY increases top→bottom, but shader fragCoord.y (from vUv) increases
+    //    bottom→top (Three.js PlaneGeometry UV convention). Negate the Y delta so the JS
+    //    world-coordinate matches the shader's cell = floor(world / uCellSize).
     const worldX = (corrected.x - center.x) / this.zoom + center.x - this.offset.x;
-    const worldY = (corrected.y - center.y) / this.zoom + center.y - this.offset.y;
+    const worldY = (center.y - corrected.y) / this.zoom + center.y - this.offset.y;
 
     const idx = getCellIndex(
       { x: worldX, y: worldY },
@@ -222,8 +228,6 @@ export class GalleryScene {
 
   start(): void {
     const tick = () => {
-      this.animFrameId = requestAnimationFrame(tick);
-
       const lf = this.cfg.lerpFactor;
       this.offset.x += (this.targetOffset.x - this.offset.x) * lf;
       this.offset.y += (this.targetOffset.y - this.offset.y) * lf;
@@ -236,19 +240,21 @@ export class GalleryScene {
       }
 
       this.renderer.render(this.scene, this.camera);
+      // Schedule next frame AFTER render so dispose() always cancels the correct id.
+      this.animFrameId = requestAnimationFrame(tick);
     };
-    tick();
+    this.animFrameId = requestAnimationFrame(tick);
   }
 
   dispose(): void {
     if (this.animFrameId !== null) cancelAnimationFrame(this.animFrameId);
     if (this.zoomTimer) clearTimeout(this.zoomTimer);
 
+    if (this.mesh) this.scene.remove(this.mesh);
     this.mesh?.geometry.dispose();
-    this.material?.dispose();
     (this.material?.uniforms.uImageAtlas.value as THREE.Texture | null)?.dispose();
     (this.material?.uniforms.uTextAtlas.value as THREE.Texture | null)?.dispose();
-
+    this.material?.dispose();
     this.renderer.dispose();
   }
 }
