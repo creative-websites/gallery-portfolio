@@ -20,8 +20,8 @@ export function applyRadialDistortion(
 
   const normalized = dist / radius;
   const factor = normalized < 1
-    ? 1 - strength * (1 - normalized * normalized)  // inside: pull in
-    : 1 + strength * (normalized - 1);               // outside: push out
+    ? 1 + strength * (1 - normalized * normalized)  // inside: push out (inverted fisheye)
+    : 1;                                             // outside: no distortion
 
   return {
     x: center.x + dx * factor,

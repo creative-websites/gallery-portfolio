@@ -17,12 +17,17 @@
 /.next/
 /out/
 
+.claude
+*.md
+!README.md
+
 # production
 /build
+/public
 
 # misc
 .DS_Store
-*.pem
+*.pem/
 
 # debug
 npm-debug.log*

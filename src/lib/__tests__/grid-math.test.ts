@@ -13,19 +13,19 @@ describe("applyRadialDistortion", () => {
     expect(res.y).toBeCloseTo(300);
   });
 
-  it("pushes points outside the radius outward (dx grows)", () => {
+  it("leaves points outside the radius unchanged", () => {
     const center = { x: 400, y: 300 };
     const point  = { x: 600, y: 300 }; // 200px right, beyond radius 150
     const res = applyRadialDistortion(point, center, 0.4, 150);
-    expect(res.x).toBeGreaterThan(600);
+    expect(res.x).toBeCloseTo(600);
     expect(res.y).toBeCloseTo(300);
   });
 
-  it("pulls points inside the radius inward toward center", () => {
+  it("pushes points inside the radius outward from center (inverted fisheye)", () => {
     const center = { x: 400, y: 300 };
     const point  = { x: 450, y: 300 }; // 50px right, inside radius 150
     const res = applyRadialDistortion(point, center, 0.4, 150);
-    expect(res.x).toBeLessThan(450);
+    expect(res.x).toBeGreaterThan(450);
   });
 });
 

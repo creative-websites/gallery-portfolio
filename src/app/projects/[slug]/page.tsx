@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { projects } from "@/lib/data";
 import { notFound } from "next/navigation";
 
@@ -16,9 +17,9 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <main style={{ padding: "2rem", fontFamily: "var(--font-mono)", color: "#f0f0f0" }}>
-      <a href="/" style={{ color: "#888", textDecoration: "none", fontSize: "0.85rem" }}>
+      <Link href="/" style={{ color: "#888", textDecoration: "none", fontSize: "0.85rem" }}>
         ← Back
-      </a>
+      </Link>
       <h1 style={{ marginTop: "2rem", fontSize: "2rem" }}>{project.title}</h1>
       <p style={{ color: "#666", marginTop: "0.5rem" }}>{project.year}</p>
     </main>
