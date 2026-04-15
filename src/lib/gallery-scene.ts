@@ -23,9 +23,9 @@ const DEFAULT_CONFIG: GalleryConfig = {
   cellSize: 400,
   lerpFactor: 0.08,
   zoomOut: 0.85,
-  zoomNormal: 1.0,
+  zoomNormal: 1.2,
   zoomDuration: 100,
-  distortionStrength: 0.75, // screen disctortion
+  distortionStrength: 1.2, // screen disctortion
   distortionRadius: 900,
   clickMaxDuration: 200,
   clickMaxMove: 6,
@@ -34,12 +34,17 @@ const DEFAULT_CONFIG: GalleryConfig = {
   hoverDriftLerp: 0.04,
 };
 
+// The design was authored at this viewport width. cellSize and distortionRadius
+// scale proportionally so the layout looks identical on every screen.
+const REFERENCE_WIDTH = 1366;
+
 export class GalleryScene {
   private renderer: THREE.WebGLRenderer;
   private scene: THREE.Scene;
   private camera: THREE.OrthographicCamera;
   private mesh: THREE.Mesh | null = null;
   private material: THREE.ShaderMaterial | null = null;
+  private currentCellSize = 0;
 
   private offset: Vec2 = { x: 0, y: 0 };
   private targetOffset: Vec2 = { x: 0, y: 0 };
@@ -73,6 +78,7 @@ export class GalleryScene {
     this.zoom = this.cfg.zoomNormal;
     this.targetZoom = this.cfg.zoomNormal;
     this.onNavigate = onNavigate;
+    this.currentCellSize = this.scaledValue(this.cfg.cellSize);
 
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -85,6 +91,10 @@ export class GalleryScene {
     this.loadTextures().catch((err) => {
       console.error("[GalleryScene] texture load failed:", err);
     });
+  }
+
+  private scaledValue(base: number): number {
+    return Math.round((base * window.innerWidth) / REFERENCE_WIDTH);
   }
 
   private makeCamera(): THREE.OrthographicCamera {
@@ -116,14 +126,16 @@ export class GalleryScene {
         uZoom: { value: this.zoom },
         uCardAtlas: { value: null },
         uCardAtlasHover: { value: null },
-        uCellSize: { value: this.cfg.cellSize },
+        uCellSize: { value: this.currentCellSize },
         uCols: { value: cols },
         uCount: { value: projects.length },
         uBgColor: { value: new THREE.Vector4(0.031, 0.031, 0.031, 1) },
         uBorderColor: { value: new THREE.Vector4(0.12, 0.12, 0.12, 1) },
         uHoverColor: { value: new THREE.Vector4(1, 1, 1, 1) },
         uDistortionStrength: { value: this.cfg.distortionStrength },
-        uDistortionRadius: { value: this.cfg.distortionRadius },
+        uDistortionRadius: {
+          value: this.scaledValue(this.cfg.distortionRadius),
+        },
       },
     });
 
@@ -158,7 +170,12 @@ export class GalleryScene {
       this.mesh.geometry = new THREE.PlaneGeometry(w, h);
     }
     if (this.material) {
+      this.currentCellSize = this.scaledValue(this.cfg.cellSize);
       this.material.uniforms.uResolution.value.set(w, h);
+      this.material.uniforms.uCellSize.value = this.currentCellSize;
+      this.material.uniforms.uDistortionRadius.value = this.scaledValue(
+        this.cfg.distortionRadius,
+      );
     }
   }
 
@@ -263,7 +280,7 @@ export class GalleryScene {
     const idx = getCellIndex(
       { x: worldX, y: worldY },
       { x: 0, y: 0 },
-      this.cfg.cellSize,
+      this.currentCellSize,
       projects.length,
     );
 
