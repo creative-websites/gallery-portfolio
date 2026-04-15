@@ -104,6 +104,12 @@ export class GalleryScene {
     return Math.round((base * diagonal) / REFERENCE_DIAGONAL);
   }
 
+  private scaledStrength(base: number): number {
+    // Reduce distortion strength on smaller screens — same value creates extreme
+    // fishbowl on mobile since it covers a larger fraction of the viewport.
+    return Math.min(base, base * window.innerWidth / REFERENCE_WIDTH);
+  }
+
   private makeCamera(): THREE.OrthographicCamera {
     const { innerWidth: w, innerHeight: h } = window;
     const cam = new THREE.OrthographicCamera(
@@ -139,7 +145,7 @@ export class GalleryScene {
         uBgColor: { value: new THREE.Vector4(0.031, 0.031, 0.031, 1) },
         uBorderColor: { value: new THREE.Vector4(0.12, 0.12, 0.12, 1) },
         uHoverColor: { value: new THREE.Vector4(1, 1, 1, 1) },
-        uDistortionStrength: { value: this.cfg.distortionStrength },
+        uDistortionStrength: { value: this.scaledStrength(this.cfg.distortionStrength) },
         uDistortionRadius: {
           value: this.scaledRadius(this.cfg.distortionRadius),
         },
@@ -180,9 +186,8 @@ export class GalleryScene {
       this.currentCellSize = this.scaledValue(this.cfg.cellSize);
       this.material.uniforms.uResolution.value.set(w, h);
       this.material.uniforms.uCellSize.value = this.currentCellSize;
-      this.material.uniforms.uDistortionRadius.value = this.scaledValue(
-        this.cfg.distortionRadius,
-      );
+      this.material.uniforms.uDistortionRadius.value = this.scaledRadius(this.cfg.distortionRadius);
+      this.material.uniforms.uDistortionStrength.value = this.scaledStrength(this.cfg.distortionStrength);
     }
   }
 
