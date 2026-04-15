@@ -2,7 +2,8 @@
 # Renames image files in public/ into public/images/01.jpg, 02.jpg, ...
 # Re-running continues from the last numbered file (won't rename already-numbered ones).
 
-PUBLIC="$(dirname "$0")/public"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PUBLIC="$SCRIPT_DIR/public"
 DEST="$PUBLIC/images"
 mkdir -p "$DEST"
 
@@ -20,7 +21,7 @@ next=$((last + 1))
 # Collect un-numbered images from public/ (any .jpg/.jpeg/.png/.webp not matching NN.ext)
 shopt -s nullglob
 candidates=()
-for f in "$PUBLIC"/*.jpg "$PUBLIC"/*.jpeg "$PUBLIC"/*.png "$PUBLIC"/*.webp; do
+for f in "$PUBLIC"/*.jpg "$PUBLIC"/*.JPG "$PUBLIC"/*.jpeg "$PUBLIC"/*.JPEG "$PUBLIC"/*.png "$PUBLIC"/*.PNG "$PUBLIC"/*.webp "$PUBLIC"/*.WEBP; do
   base=$(basename "$f")
   # Skip if already looks like 01.jpg .. 99.jpg
   [[ "$base" =~ ^[0-9]{2}\.(jpg|jpeg|png|webp)$ ]] && continue

@@ -23,8 +23,12 @@ function shuffle<T>(arr: T[]): T[] {
 export default function LoadingScreen({ progress, onComplete }: Props) {
   const [phase, setPhase] = useState<Phase>("intro");
   const [imgIndex, setImgIndex] = useState(0);
-  const shuffledPaths = useRef(shuffle(projects.map((p) => p.imagePath)));
+  const shuffledPaths = useRef<string[]>([]);
+  useEffect(() => {
+    shuffledPaths.current = shuffle(projects.map((p) => p.imagePath));
+  }, []);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const flippingStartRef = useRef<number | null>(null);
 
   // intro → split after 1s
   useEffect(() => {
@@ -39,10 +43,19 @@ export default function LoadingScreen({ progress, onComplete }: Props) {
     return () => clearTimeout(t);
   }, [phase]);
 
-  // flipping → exiting when loading is done
+  // record when flipping starts
+  useEffect(() => {
+    if (phase !== "flipping") return;
+    flippingStartRef.current = Date.now();
+  }, [phase]);
+
+  // flipping → exiting when loading is done AND 2s minimum has elapsed
   useEffect(() => {
     if (phase !== "flipping" || progress < 1) return;
-    setPhase("exiting");
+    const elapsed = Date.now() - (flippingStartRef.current ?? Date.now());
+    const remaining = Math.max(0, 2000 - elapsed);
+    const t = setTimeout(() => setPhase("exiting"), remaining);
+    return () => clearTimeout(t);
   }, [phase, progress]);
 
   // cycle images while flipping

@@ -87,12 +87,4 @@ export const projects: Project[] = [
   { title: "PARALLEL WORLDS",          slug: "parallel-worlds",          imagePath: "/images/77.jpg", client: "HBO",         tags: ["TITLE SEQ", "MOTION", "VFX"],       year: 2015 },
   { title: "IVORY TOWER LAUNCH",       slug: "ivory-tower-launch",       imagePath: "/images/78.jpg", client: "DIOR",        tags: ["FILM", "LUXURY", "FRAGRANCE"],      year: 2015 },
   { title: "CIRCUIT BREAKER",          slug: "circuit-breaker",          imagePath: "/images/79.jpg", client: "INTEL",       tags: ["IDENTITY", "MOTION", "TECH"],       year: 2015 },
-  { title: "HALO REBRAND",             slug: "halo-rebrand",             imagePath: "/images/80.jpg", client: "XBOX",        tags: ["IDENTITY", "GAMING", "MOTION"],     year: 2015 },
-  { title: "PAPER ARCHITECTURE",       slug: "paper-architecture",       imagePath: "/images/81.jpg", client: "ZAHA H.",     tags: ["PRINT", "EDITORIAL", "SPATIAL"],    year: 2014 },
-  { title: "DEPTH CHARGE",             slug: "depth-charge",             imagePath: "/images/82.jpg", client: "RED BULL",    tags: ["CAMPAIGN", "FILM", "SOCIAL"],       year: 2014 },
-  { title: "MONO SYSTEM",              slug: "mono-system",              imagePath: "/images/83.jpg", client: "BRAUN",       tags: ["IDENTITY", "PRODUCT", "PRINT"],     year: 2014 },
-  { title: "OBSIDIAN IDENTITY",        slug: "obsidian-identity",        imagePath: "/images/84.jpg", client: "BLACK CROW",  tags: ["IDENTITY", "PACKAGING"],            year: 2014 },
-  { title: "FLUX TITLE SEQUENCE",      slug: "flux-title-sequence",      imagePath: "/images/85.jpg", client: "FX",          tags: ["TITLE SEQ", "MOTION", "TYPE"],      year: 2014 },
-  { title: "FIELD NOTES SS14",         slug: "field-notes-ss14",         imagePath: "/images/86.jpg", client: "COS",         tags: ["EDITORIAL", "FASHION", "PRINT"],    year: 2014 },
-  { title: "GENESIS BRAND SYSTEM",     slug: "genesis-brand-system",     imagePath: "/images/87.jpg", client: "GENESIS",     tags: ["IDENTITY", "MOTION", "AUTOMOTIVE"], year: 2014 },
 ];
