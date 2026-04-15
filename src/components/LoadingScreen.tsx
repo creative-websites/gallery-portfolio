@@ -78,10 +78,10 @@ export default function LoadingScreen({ progress, onComplete }: Props) {
     >
       <div className={`${styles.nameRow}`}>
         <span className={`${styles.word} ${phase !== "intro" ? styles.splitLeft : ""}`}>
-          Utkarsh
+          Utkarsh {" "}
         </span>
         <span className={`${styles.word} ${phase !== "intro" ? styles.splitRight : ""}`}>
-          Goel
+          Ahhnnnn
         </span>
       </div>
 
