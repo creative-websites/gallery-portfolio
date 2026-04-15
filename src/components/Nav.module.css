@@ -157,3 +157,38 @@
 .filter:hover {
   color: #fff;
 }
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .topBar {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    padding: 10px 16px;
+  }
+
+  .cta {
+    font-size: 11px;
+    padding: 8px 16px;
+  }
+
+  .bottomBar {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    padding: 12px 16px;
+  }
+
+  .tab {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+
+  .filter {
+    font-size: 11px;
+  }
+
+  .indicator {
+    font-size: 10px;
+  }
+}

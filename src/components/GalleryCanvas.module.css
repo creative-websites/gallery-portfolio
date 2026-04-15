@@ -4,6 +4,7 @@
   height: 100vh;
   overflow: hidden;
   cursor: grab;
+  touch-action: none;
 }
 
 .wrapper.dragging {

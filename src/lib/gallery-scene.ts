@@ -97,6 +97,13 @@ export class GalleryScene {
     return Math.round((base * window.innerWidth) / REFERENCE_WIDTH);
   }
 
+  private scaledRadius(base: number): number {
+    // Scale by diagonal so narrow mobile screens don't compress the radius too aggressively.
+    const REFERENCE_DIAGONAL = Math.sqrt(1366 * 1366 + 768 * 768);
+    const diagonal = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2);
+    return Math.round((base * diagonal) / REFERENCE_DIAGONAL);
+  }
+
   private makeCamera(): THREE.OrthographicCamera {
     const { innerWidth: w, innerHeight: h } = window;
     const cam = new THREE.OrthographicCamera(
@@ -134,7 +141,7 @@ export class GalleryScene {
         uHoverColor: { value: new THREE.Vector4(1, 1, 1, 1) },
         uDistortionStrength: { value: this.cfg.distortionStrength },
         uDistortionRadius: {
-          value: this.scaledValue(this.cfg.distortionRadius),
+          value: this.scaledRadius(this.cfg.distortionRadius),
         },
       },
     });
