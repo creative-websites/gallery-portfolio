@@ -45,8 +45,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: clamp(220px, 32vmin, 360px);
-  height: clamp(220px, 32vmin, 360px);
+  width: clamp(280px, 42vmin, 480px);
+  height: clamp(280px, 42vmin, 480px);
   opacity: 0;
   transition: opacity 0.35s ease;
   pointer-events: none;
