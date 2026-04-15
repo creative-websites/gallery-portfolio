@@ -1,0 +1,159 @@
+/* ── Shared token ── */
+:root {
+  --nav-font: var(--font-mono, monospace);
+  --nav-text: rgba(255, 255, 255, 0.75);
+  --nav-border: rgba(255, 255, 255, 0.12);
+}
+
+/* ── Top bar ── */
+.topBar {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px;
+  pointer-events: none;
+}
+
+.logo {
+  flex-shrink: 0;
+  pointer-events: auto;
+  opacity: 0.9;
+}
+
+/* Ticker */
+.tickerWrap {
+  flex: 1;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 6%,
+    black 94%,
+    transparent 100%
+  );
+}
+
+.tickerTrack {
+  display: inline-flex;
+  gap: 0;
+  white-space: nowrap;
+  animation: ticker 28s linear infinite;
+  font-family: var(--nav-font);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nav-text);
+}
+
+.tickerTrack span {
+  padding-right: 60px;
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* CTA */
+.cta {
+  flex-shrink: 0;
+  pointer-events: auto;
+  font-family: var(--nav-font);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #000;
+  background: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 24px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.cta:hover {
+  opacity: 0.85;
+}
+
+/* ── Bottom bar ── */
+.bottomBar {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  pointer-events: none;
+}
+
+/* Indicator */
+.indicator {
+  font-family: var(--nav-font);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--nav-text);
+}
+
+/* Tab nav */
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(30, 30, 30, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--nav-border);
+  border-radius: 999px;
+  padding: 5px;
+  pointer-events: auto;
+}
+
+.tab {
+  font-family: var(--nav-font);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.55);
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 26px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+
+.tab:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.tabActive {
+  color: #000 !important;
+  background: #fff;
+}
+
+/* Filter */
+.filter {
+  font-family: var(--nav-font);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--nav-text);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  pointer-events: auto;
+  transition: color 0.15s;
+}
+
+.filter:hover {
+  color: #fff;
+}

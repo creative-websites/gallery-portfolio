@@ -20,12 +20,12 @@ export interface GalleryConfig {
 }
 
 const DEFAULT_CONFIG: GalleryConfig = {
-  cellSize: 340,
+  cellSize: 400,
   lerpFactor: 0.08,
   zoomOut: 0.85,
   zoomNormal: 1.0,
   zoomDuration: 100,
-  distortionStrength: 0.5,
+  distortionStrength: 0.75, // screen disctortion
   distortionRadius: 900,
   clickMaxDuration: 200,
   clickMaxMove: 6,
@@ -60,13 +60,16 @@ export class GalleryScene {
   private animFrameId: number | null = null;
   private cfg: GalleryConfig;
   private onNavigate: (path: string) => void;
+  private onProgress?: (progress: number) => void;
 
   constructor(
     canvas: HTMLCanvasElement,
     onNavigate: (path: string) => void,
+    onProgress?: (progress: number) => void,
     cfg: Partial<GalleryConfig> = {},
   ) {
     this.cfg = { ...DEFAULT_CONFIG, ...cfg };
+    this.onProgress = onProgress;
     this.zoom = this.cfg.zoomNormal;
     this.targetZoom = this.cfg.zoomNormal;
     this.onNavigate = onNavigate;
@@ -129,7 +132,11 @@ export class GalleryScene {
   }
 
   private async loadTextures(): Promise<void> {
-    const { normal, hover } = await createCardAtlas(projects, 512);
+    const { normal, hover } = await createCardAtlas(
+      projects,
+      512,
+      this.onProgress,
+    );
     if (!this.material) return;
     this.material.uniforms.uCardAtlas.value = normal;
     this.material.uniforms.uCardAtlasHover.value = hover;

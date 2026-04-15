@@ -208,12 +208,22 @@ function createCardTile(
 /** Pack full card tiles (image + labels) into a single atlas texture. */
 export async function createCardAtlas(
   projects: Project[],
-  tileSize: number
+  tileSize: number,
+  onProgress?: (progress: number) => void
 ): Promise<{ normal: THREE.CanvasTexture; hover: THREE.CanvasTexture }> {
   await document.fonts.ready;
 
   const layout = packAtlasLayout(projects.length, tileSize);
-  const images = await Promise.all(projects.map((p) => loadImage(p.imagePath)));
+  let loaded = 0;
+  const images = await Promise.all(
+    projects.map((p) =>
+      loadImage(p.imagePath).then((img) => {
+        loaded++;
+        onProgress?.(loaded / projects.length);
+        return img;
+      })
+    )
+  );
 
   const normalTiles = projects.map((p, i) => createCardTile(p, images[i], tileSize, false));
   const hoverTiles  = projects.map((p, i) => createCardTile(p, images[i], tileSize, true));

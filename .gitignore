@@ -22,6 +22,8 @@
 *.md
 !README.md
 
+graphify-out
+
 # production
 /build
 /public
